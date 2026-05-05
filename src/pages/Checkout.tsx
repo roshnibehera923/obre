@@ -60,6 +60,14 @@ export default function Checkout() {
                      </div>
                      <div className="bg-white p-4 border border-stone mb-4">
                         <div className="text-[10px] uppercase tracking-widest text-mid mb-2 font-bold">Selected Customization</div>
+                        {item.config.size && (
+                          <div className="text-[11px] font-serif text-ink mb-2">
+                            Size: <span className="uppercase font-medium">{item.config.size}</span>
+                            {item.config.size === 'Custom' && (
+                              <span className="text-mid ml-2 italic">· Custom measurements provided</span>
+                            )}
+                          </div>
+                        )}
                         <p className="text-[12px] text-charcoal font-serif leading-relaxed">
                           <span className="capitalize">{item.config.color || 'Standard'}</span> · <span className="capitalize">{item.config.length?.replace('-', ' ') || 'Standard'}</span> · <span className="capitalize">{item.config.sleeve?.replace('-', ' ') || 'Sleeveless'}</span> Sleeve · <span className="capitalize">{item.config.embColor || 'Matched'}</span> Embellishment · <span className="capitalize">{item.config.embPlacement?.replace('-', ' ') || 'Standard'}</span>
                         </p>

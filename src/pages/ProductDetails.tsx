@@ -4,6 +4,19 @@ import { CAT } from "../data";
 import { formatPrice, cn } from "../lib/utils";
 import { useStore } from "../store";
 import { ProductCard } from "../components/ProductCard";
+import { SizeChartModal } from "../components/SizeChartModal";
+
+const GARMENT_SIZES = ['XS','S','M','L','XL','1X','2X','3X','Custom'] as const;
+const CUSTOM_FIELDS: { key: string; label: string }[] = [
+  { key: 'bust',          label: 'Bust (cm)' },
+  { key: 'waist',         label: 'Waist (cm)' },
+  { key: 'hip',           label: 'Hip (cm)' },
+  { key: 'shoulder',      label: 'Shoulder (cm)' },
+  { key: 'height',        label: 'Height (cm)' },
+  { key: 'garmentLength', label: 'Preferred Garment Length' },
+  { key: 'sleeveLength',  label: 'Sleeve Length' },
+  { key: 'coverage',      label: 'Coverage Preference' },
+];
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -21,6 +34,9 @@ export default function ProductDetails() {
     embPlacement: 'neckline-hemline'
   });
   const [showSizeGuide, setShowSizeGuide] = useState(false);
+  const [selectedSize, setSelectedSize] = useState('');
+  const [customMeasurements, setCustomMeasurements] = useState<Record<string, string>>({});
+  const [sizeError, setSizeError] = useState(false);
 
   // Fallback if not found
   if (!product) return <div className="p-20 text-center font-serif text-2xl">Product Not Found</div>;
@@ -42,10 +58,19 @@ export default function ProductDetails() {
   };
 
   const handleAddToCart = () => {
+    if (!selectedSize) {
+      setSizeError(true);
+      return;
+    }
+    setSizeError(false);
     addToCart({
       id: Math.random().toString(36).substring(7),
       product,
-      config
+      config: {
+        ...config,
+        size: selectedSize,
+        ...(selectedSize === 'Custom' ? { customMeasurements } : {}),
+      }
     });
     alert("Added to bag!");
   };
@@ -129,11 +154,94 @@ export default function ProductDetails() {
              </div>
            </div>
 
+           {/* Size Selection */}
+           <div className="mb-10 pt-6 border-t border-stone">
+             <div className="flex justify-between items-center mb-5">
+               <h3 className="text-[10px] uppercase tracking-widest font-bold text-ink">
+                 Select Size
+                 {selectedSize && selectedSize !== 'Custom' && (
+                   <span className="text-gold ml-3 normal-case tracking-normal font-normal text-[11px] font-serif italic">
+                     — {selectedSize}
+                   </span>
+                 )}
+               </h3>
+               <button
+                 onClick={() => setShowSizeGuide(true)}
+                 className="text-[10px] uppercase tracking-widest text-gold hover:text-ink underline underline-offset-4 transition-colors"
+               >
+                 Size Chart
+               </button>
+             </div>
+
+             <div className="flex flex-wrap gap-2 mb-4">
+               {GARMENT_SIZES.map(sz => (
+                 <button
+                   key={sz}
+                   onClick={() => { setSelectedSize(sz); setSizeError(false); }}
+                   className={cn(
+                     "px-4 py-2.5 border text-[10px] uppercase tracking-[0.12em] transition-colors min-w-[52px] text-center",
+                     selectedSize === sz
+                       ? "bg-ink text-white border-ink"
+                       : sz === 'Custom'
+                         ? "bg-white text-gold border-gold hover:bg-gold/10"
+                         : "bg-white text-ink border-stone hover:border-gold hover:text-gold"
+                   )}
+                 >
+                   {sz}
+                 </button>
+               ))}
+             </div>
+
+             {sizeError && (
+               <p className="text-[11px] font-serif italic border-l-2 border-gold pl-3 text-charcoal mb-4">
+                 Please select a size before adding this item to your cart.
+               </p>
+             )}
+
+             <div className="text-[11px] text-mid font-serif space-y-0.5 mb-2">
+               <p>True to size</p>
+               <p>Model is 178 cm / 5'10" and wearing size XS</p>
+               <p>Customisation available for fit, length, and coverage</p>
+             </div>
+
+             {selectedSize === 'Custom' && (
+               <div className="border border-stone p-6 bg-cream mt-5">
+                 <h4 className="text-[10px] uppercase tracking-widest font-bold text-ink mb-1">
+                   Custom Measurements
+                 </h4>
+                 <p className="text-[11px] font-serif italic text-mid mb-5">
+                   Customisation is available for fit, length, and coverage. Please enter your measurements carefully.
+                 </p>
+                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                   {CUSTOM_FIELDS.map(f => (
+                     <div key={f.key}>
+                       <label className="block text-[9px] uppercase tracking-widest text-mid mb-1">{f.label}</label>
+                       <input
+                         type="text"
+                         value={customMeasurements[f.key] || ''}
+                         onChange={e => setCustomMeasurements(prev => ({ ...prev, [f.key]: e.target.value }))}
+                         className="w-full border border-stone bg-white px-3 py-2 text-[12px] font-serif text-ink outline-none focus:border-ink transition-colors"
+                       />
+                     </div>
+                   ))}
+                 </div>
+                 <div>
+                   <label className="block text-[9px] uppercase tracking-widest text-mid mb-1">Additional Fit Notes</label>
+                   <textarea
+                     value={customMeasurements['notes'] || ''}
+                     onChange={e => setCustomMeasurements(prev => ({ ...prev, notes: e.target.value }))}
+                     rows={3}
+                     className="w-full border border-stone bg-white px-3 py-2 text-[12px] font-serif text-ink outline-none focus:border-ink transition-colors resize-none"
+                   />
+                 </div>
+               </div>
+             )}
+           </div>
+
            {/* Customisation block */}
            <div className="mb-10 pt-6 border-t border-stone">
              <div className="flex justify-between items-center mb-6">
                <h3 className="text-xl font-serif text-ink">Made-to-Order Details</h3>
-               <button onClick={() => setShowSizeGuide(true)} className="text-[10px] uppercase tracking-widest text-gold hover:text-ink underline underline-offset-4">Size Guide</button>
              </div>
              
              {/* Base Color */}
@@ -257,6 +365,7 @@ export default function ProductDetails() {
            <div className="bg-white border border-stone p-6 mb-6">
              <h3 className="text-[11px] uppercase tracking-[0.1em] font-bold text-ink mb-3">Your Made-to-Order Selection</h3>
              <p className="text-[14px] text-charcoal font-serif leading-relaxed mb-4">
+               {selectedSize && <><span className="uppercase">{selectedSize}</span> · </>}
                <span className="capitalize">{config.color}</span> · <span className="capitalize">{config.length.replace('-', ' ')}</span> · <span className="capitalize">{config.sleeve.replace('-', ' ')}{config.sleeve === 'sleeveless' ? '' : ' Sleeve'}</span> · <span className="capitalize">{config.embColor}</span> Embellishment · <span className="capitalize">{config.embPlacement.replace('-', ' ')}</span>
              </p>
              <p className="text-[11px] text-mid italic font-serif">Final handcrafted detailing may vary slightly due to the artisanal nature of the garment.</p>
@@ -363,38 +472,7 @@ export default function ProductDetails() {
         </div>
       )}
 
-      {/* Size Guide Modal */}
-      {showSizeGuide && (
-        <div className="fixed inset-0 bg-ink/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-          <div className="bg-white max-w-[800px] w-full p-10 border border-stone relative">
-            <button onClick={() => setShowSizeGuide(false)} className="absolute top-6 right-6 text-2xl text-mid hover:text-ink transition-colors">×</button>
-            <h3 className="text-3xl font-serif italic text-ink mb-2">Size Guide</h3>
-            <p className="text-[12px] text-mid uppercase tracking-widest mb-8">Measure carefully to ensure the perfect fit</p>
-            
-            <table className="w-full text-left border-collapse border border-stone">
-              <thead>
-                <tr className="bg-cream">
-                  <th className="border border-stone p-3 text-[10px] uppercase tracking-widest">Size</th>
-                  <th className="border border-stone p-3 text-[10px] uppercase tracking-widest">Bust (cm)</th>
-                  <th className="border border-stone p-3 text-[10px] uppercase tracking-widest">Waist (cm)</th>
-                  <th className="border border-stone p-3 text-[10px] uppercase tracking-widest">Hip (cm)</th>
-                </tr>
-              </thead>
-              <tbody className="text-[13px] text-charcoal font-serif">
-                <tr><td className="border border-stone p-3 font-sans text-[11px] uppercase">XXS</td><td className="border border-stone p-3">78</td><td className="border border-stone p-3">60</td><td className="border border-stone p-3">86</td></tr>
-                <tr className="bg-ivory"><td className="border border-stone p-3 font-sans text-[11px] uppercase">XS</td><td className="border border-stone p-3">82</td><td className="border border-stone p-3">64</td><td className="border border-stone p-3">90</td></tr>
-                <tr><td className="border border-stone p-3 font-sans text-[11px] uppercase">S</td><td className="border border-stone p-3">86</td><td className="border border-stone p-3">68</td><td className="border border-stone p-3">94</td></tr>
-                <tr className="bg-ivory"><td className="border border-stone p-3 font-sans text-[11px] uppercase">M</td><td className="border border-stone p-3">90</td><td className="border border-stone p-3">72</td><td className="border border-stone p-3">98</td></tr>
-                <tr><td className="border border-stone p-3 font-sans text-[11px] uppercase">L</td><td className="border border-stone p-3">94</td><td className="border border-stone p-3">76</td><td className="border border-stone p-3">102</td></tr>
-                <tr className="bg-ivory"><td className="border border-stone p-3 font-sans text-[11px] uppercase">XL</td><td className="border border-stone p-3">98</td><td className="border border-stone p-3">80</td><td className="border border-stone p-3">106</td></tr>
-                <tr><td className="border border-stone p-3 font-sans text-[11px] uppercase">2XL</td><td className="border border-stone p-3">102</td><td className="border border-stone p-3">84</td><td className="border border-stone p-3">110</td></tr>
-              </tbody>
-            </table>
-
-            <p className="text-[11px] text-charcoal italic font-serif mt-6">All measurements refer to body size, not garment dimensions. Since each piece is made-to-order, minor adjustments can be requested post-purchase via client care.</p>
-          </div>
-        </div>
-      )}
+      <SizeChartModal isOpen={showSizeGuide} onClose={() => setShowSizeGuide(false)} />
     </div>
   );
 }

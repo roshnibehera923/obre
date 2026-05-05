@@ -54,10 +54,18 @@ export default function Cart() {
                     
                     <div className="bg-cream p-4 border border-stone mb-4 relative">
                       <div className="absolute top-4 right-4">
-                        <button onClick={() => navigate(`/product/${item.product.id}`)} className="text-[9px] uppercase tracking-widest text-ink hover:text-gold underline underline-offset-4 transition-colors">Edit Customization</button>
+                        <button onClick={() => navigate(`/product/${item.product.id}`)} className="text-[9px] uppercase tracking-widest text-ink hover:text-gold underline underline-offset-4 transition-colors">Edit</button>
                       </div>
                       <div className="text-[10px] uppercase tracking-widest text-mid mb-2 font-bold">Customization</div>
-                      <p className="text-[12px] text-charcoal font-serif leading-relaxed pr-24">
+                      {item.config.size && (
+                        <div className="text-[11px] font-serif text-ink mb-2">
+                          Size: <span className="uppercase font-medium">{item.config.size}</span>
+                          {item.config.size === 'Custom' && (
+                            <span className="text-mid ml-2 italic">· Custom measurements provided</span>
+                          )}
+                        </div>
+                      )}
+                      <p className="text-[12px] text-charcoal font-serif leading-relaxed pr-16">
                         <span className="capitalize">{item.config.color || 'Standard'}</span> · <span className="capitalize">{item.config.length?.replace('-', ' ') || 'Standard'}</span> · <span className="capitalize">{item.config.sleeve?.replace('-', ' ') || 'Sleeveless'}</span> Sleeve · <span className="capitalize">{item.config.embColor || 'Matched'}</span> Embellishment · <span className="capitalize">{item.config.embPlacement?.replace('-', ' ') || 'Standard'}</span>
                       </p>
                     </div>
