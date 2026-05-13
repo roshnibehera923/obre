@@ -4,8 +4,20 @@ import { ProductCard } from '../components/ProductCard';
 import { useStore } from '../store';
 import { CURRENCY_META, getBudgetLabel, type CurrencyCode } from '../lib/utils';
 
-// ─── Visual metadata per step ──────────────────────────────────────────────
+// ─── Brand tokens ──────────────────────────────────────────────────────────
+const T = {
+  ivory:   '#FAF7F1',
+  beige:   '#F5EFE6',
+  parchment: '#F0EBE3',
+  border:  '#DED6C8',
+  gold:    '#C8A66A',
+  goldMid: 'rgba(200,166,106,0.45)',
+  ink:     '#1F1F1F',
+  mid:     '#7A6E64',
+  muted:   '#A89E94',
+};
 
+// ─── Step visual metadata ──────────────────────────────────────────────────
 const STEP_META: Record<string, {
   subtitle: string;
   cards: Record<string, { img: string; tag: string }>;
@@ -13,80 +25,79 @@ const STEP_META: Record<string, {
   occasion: {
     subtitle: 'Curated pieces tailored to your moment.',
     cards: {
-      'Wedding Guest':       { img: 'https://images.unsplash.com/photo-1583846552345-bd6fbbd14da6?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Romantic occasion dressing' },
-      'Evening Gala':        { img: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Black-tie couture' },
-      'Cocktail Party':      { img: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Chic nightlife glamour' },
-      'Festive Celebration': { img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Jewelled festive luxury' },
-      'Resort Holiday':      { img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Coastal editorial ease' },
-      'Corporate Event':     { img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Minimal structured power' },
+      'Wedding Guest':       { img: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Garden venue elegance' },
+      'Evening Gala':        { img: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Grand ballroom splendour' },
+      'Cocktail Party':      { img: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Luxury lounge ambience' },
+      'Festive Celebration': { img: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Jewel-toned festive warmth' },
+      'Resort Holiday':      { img: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Sunlit resort serenity' },
+      'Corporate Event':     { img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Polished architectural precision' },
     },
   },
   timeOfDay: {
     subtitle: 'Let the light define your look.',
     cards: {
-      'Day':     { img: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Sunlit editorial ease' },
-      'Evening': { img: 'https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Golden-hour elegance' },
-      'Night':   { img: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Dramatic after-dark' },
+      'Day':     { img: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Soft morning luminosity' },
+      'Evening': { img: 'https://images.unsplash.com/photo-1506477331477-33d5d8b3dc85?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Golden-hour warmth' },
+      'Night':   { img: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Chandelier-lit after-dark' },
     },
   },
   location: {
     subtitle: 'The setting shapes the silhouette.',
     cards: {
-      'Indoor':      { img: 'https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Ballroom refinement' },
-      'Outdoor':     { img: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Garden editorial' },
-      'Beach':       { img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Coastal resort luxury' },
-      'Destination': { img: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=600&h=800&q=80', tag: "Traveller's wardrobe" },
-      'City':        { img: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Urban luxury fashion' },
+      'Indoor':      { img: 'https://images.unsplash.com/photo-1554435493-93422e8220c8?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Marble & grandeur' },
+      'Outdoor':     { img: 'https://images.unsplash.com/photo-1551882547-ff40c63fe2e2?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Garden courtyard grace' },
+      'Beach':       { img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Coastal resort ease' },
+      'Destination': { img: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Heritage landscape wonder' },
+      'City':        { img: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Urban luxury exterior' },
     },
   },
   mood: {
     subtitle: 'Define the energy of your look.',
     cards: {
-      'Minimal':  { img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Quiet luxury' },
-      'Romantic': { img: 'https://images.unsplash.com/photo-1494955870675-b0a92c78b1b7?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Soft floral poetry' },
-      'Bold':     { img: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Statement energy' },
-      'Dramatic': { img: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Cinematic presence' },
-      'Elegant':  { img: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Timeless refinement' },
-      'Playful':  { img: 'https://images.unsplash.com/photo-1533158326339-7f3cf2404354?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Joyful movement' },
+      'Minimal':  { img: 'https://images.unsplash.com/photo-1449247709967-d4461a6a6103?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Clean quiet luxury' },
+      'Romantic': { img: 'https://images.unsplash.com/photo-1490750967868-88df5691cc2e?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Soft floral poetry' },
+      'Bold':     { img: 'https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Architectural drama' },
+      'Dramatic': { img: 'https://images.unsplash.com/photo-1541123437800-1bb1317badc2?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Cinematic grandeur' },
+      'Elegant':  { img: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Timeless refinement' },
+      'Playful':  { img: 'https://images.unsplash.com/photo-1513519245088-0e12902e35a6?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Vibrant joyful colour' },
     },
   },
   budget: {
     subtitle: 'A wardrobe investment, made beautifully.',
     cards: {
-      'Under $1,000':   { img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Considered luxury' },
-      '$1,000–$2,000':  { img: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Artisan craftsmanship' },
-      '$2,000+':        { img: 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Couture atelier' },
+      'Under $1,000':  { img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Refined considered luxury' },
+      '$1,000–$2,000': { img: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Artisan craftsmanship' },
+      '$2,000+':       { img: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Couture atelier excellence' },
     },
   },
   colour: {
     subtitle: 'Colour is your first impression.',
     cards: {
-      'Pastel':     { img: 'https://images.unsplash.com/photo-1594552072238-b8a33785b6cd?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Soft ethereal tones' },
-      'Jewel Tone': { img: 'https://images.unsplash.com/photo-1618517351616-38fb9c5210c6?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Rich chromatic depth' },
-      'Neutral':    { img: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Understated elegance' },
-      'Metallic':   { img: 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Light-catching luxe' },
-      'Vibrant':    { img: 'https://images.unsplash.com/photo-1533158326339-7f3cf2404354?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Unapologetic colour' },
-      'Noir':       { img: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=600&h=800&q=80', tag: 'The power of black' },
+      'Pastel':     { img: 'https://images.unsplash.com/photo-1490750967868-88df5691cc2e?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Soft ethereal palette' },
+      'Jewel Tone': { img: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Rich chromatic depth' },
+      'Neutral':    { img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Understated ivory ease' },
+      'Metallic':   { img: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Light-catching shimmer' },
+      'Vibrant':    { img: 'https://images.unsplash.com/photo-1513519245088-0e12902e35a6?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Unapologetic bold colour' },
+      'Noir':       { img: 'https://images.unsplash.com/photo-1541123437800-1bb1317badc2?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Moody black elegance' },
     },
   },
   silhouette: {
     subtitle: 'Choose the structure that reflects your style.',
     cards: {
-      'Mini':          { img: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Playful cocktail cut' },
-      'Midi':          { img: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Modern ladylike length' },
-      'Floor-Length':  { img: 'https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Sweeping drama' },
-      'Gown':          { img: 'https://images.unsplash.com/photo-1583846552345-bd6fbbd14da6?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Couture grandeur' },
-      'A-Line':        { img: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Timeless femininity' },
-      'Body-Skimming': { img: 'https://images.unsplash.com/photo-1548360828-11e47ae7b96f?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Sleek second skin' },
-      'Flowing':       { img: 'https://images.unsplash.com/photo-1583846783214-7229a91b20ed?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Draped in movement' },
+      'Mini':          { img: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Cocktail venue energy' },
+      'Midi':          { img: 'https://images.unsplash.com/photo-1554435493-93422e8220c8?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Refined balanced proportion' },
+      'Floor-Length':  { img: 'https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Sweeping vertical drama' },
+      'Gown':          { img: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Ballroom couture grandeur' },
+      'A-Line':        { img: 'https://images.unsplash.com/photo-1551882547-ff40c63fe2e2?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Feminine arched grace' },
+      'Body-Skimming': { img: 'https://images.unsplash.com/photo-1449247709967-d4461a6a6103?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Sleek sculptural line' },
+      'Flowing':       { img: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Soft movement & drape' },
     },
   },
 };
 
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
 
-// ─── Currency dropdown ─────────────────────────────────────────────────────
-
+// ─── Currency dropdown — ivory / light theme ───────────────────────────────
 function CurrencyDropdown({
   currency,
   setCurrency,
@@ -111,14 +122,25 @@ function CurrencyDropdown({
     <div ref={ref} className="relative inline-block">
       <button
         onClick={() => setOpen(o => !o)}
-        className="flex items-center gap-3 border border-[#C5A059]/40 hover:border-[#C5A059] px-5 py-3 transition-all duration-300 group"
-        style={{ background: 'rgba(197,160,89,0.06)' }}
+        className="flex items-center gap-3 px-5 py-3 transition-all duration-300 border"
+        style={{
+          background: T.ivory,
+          borderColor: open ? T.gold : T.border,
+        }}
       >
-        <span className="text-[#C5A059] font-bold text-[11px] tracking-[0.2em] uppercase">{active.code === 'BOTH' ? 'USD · INR' : active.code}</span>
-        <span className="text-white/40 font-sans text-[10px] tracking-widest">—</span>
-        <span className="text-white/60 font-sans text-[10px] tracking-widest uppercase">{active.name}</span>
+        <span
+          className="font-sans text-[11px] tracking-[0.2em] uppercase font-medium"
+          style={{ color: T.gold }}
+        >
+          {active.code === 'BOTH' ? 'USD · INR' : active.code}
+        </span>
+        <span className="font-sans text-[10px] tracking-widest" style={{ color: T.muted }}>—</span>
+        <span className="font-sans text-[10px] tracking-widest uppercase" style={{ color: T.mid }}>
+          {active.name}
+        </span>
         <svg
-          className={`w-3 h-3 text-[#C5A059] transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+          className={`w-3 h-3 transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+          style={{ color: T.gold }}
           viewBox="0 0 12 8" fill="none"
         >
           <path d="M1 1l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
@@ -127,27 +149,33 @@ function CurrencyDropdown({
 
       {open && (
         <div
-          className="absolute top-full left-0 right-0 z-50 mt-1 border border-[#C5A059]/20 overflow-hidden"
-          style={{ background: '#131109', minWidth: '260px' }}
+          className="absolute top-full left-0 z-50 mt-px border overflow-hidden"
+          style={{ background: T.ivory, borderColor: T.border, minWidth: '260px', boxShadow: '0 8px 32px rgba(31,20,10,0.08)' }}
         >
           {CURRENCY_META.map((c, i) => (
             <button
               key={c.code}
               onClick={() => { setCurrency(c.code); setOpen(false); }}
-              className={`w-full flex items-center justify-between px-5 py-3 transition-colors duration-150 text-left
-                ${currency === c.code
-                  ? 'bg-[#C5A059]/15 text-[#C5A059]'
-                  : 'text-white/60 hover:bg-white/5 hover:text-white'
-                }
-                ${i < CURRENCY_META.length - 1 ? 'border-b border-white/5' : ''}
-              `}
+              className="w-full flex items-center justify-between px-5 py-3 text-left transition-colors duration-150"
+              style={{
+                background: currency === c.code ? `rgba(200,166,106,0.10)` : 'transparent',
+                borderBottom: i < CURRENCY_META.length - 1 ? `1px solid ${T.border}` : 'none',
+              }}
             >
-              <span className="font-sans text-[11px] tracking-[0.15em] uppercase font-medium">
+              <span
+                className="font-sans text-[11px] tracking-[0.15em] uppercase font-medium"
+                style={{ color: currency === c.code ? T.gold : T.ink }}
+              >
                 {c.code === 'BOTH' ? 'BOTH' : c.code}
               </span>
-              <span className="font-sans text-[10px] tracking-widest uppercase opacity-70">{c.name}</span>
+              <span
+                className="font-sans text-[10px] tracking-widest uppercase"
+                style={{ color: T.muted }}
+              >
+                {c.name}
+              </span>
               {currency === c.code && (
-                <span className="text-[#C5A059] text-xs ml-2">✦</span>
+                <span style={{ color: T.gold }} className="text-xs ml-2">✦</span>
               )}
             </button>
           ))}
@@ -158,7 +186,6 @@ function CurrencyDropdown({
 }
 
 // ─── Main component ────────────────────────────────────────────────────────
-
 export default function GuidedJourney() {
   const { currency, setCurrency } = useStore();
   const [step, setStep] = useState(0);
@@ -265,28 +292,28 @@ export default function GuidedJourney() {
     const summaryString = Object.values(answers).flat().filter(Boolean).join(' · ');
 
     return (
-      <div className="min-h-screen" style={{ background: '#0E0C09' }}>
+      <div className="min-h-screen" style={{ background: T.ivory }}>
+
         {/* Results header */}
-        <div className="relative border-b border-white/8 px-6 md:px-16 py-20 text-center overflow-hidden">
+        <div
+          className="relative px-6 md:px-16 py-20 text-center border-b"
+          style={{ background: T.beige, borderColor: T.border }}
+        >
+          <div className="text-[10px] tracking-[0.35em] uppercase mb-5 font-sans" style={{ color: T.gold }}>
+            Your Curated Edit
+          </div>
+          <h1 className="font-serif italic text-5xl md:text-6xl mb-8" style={{ color: T.ink }}>
+            Curated For You
+          </h1>
           <div
-            className="absolute inset-0 opacity-20"
-            style={{
-              background: 'radial-gradient(ellipse 70% 60% at 50% 0%, rgba(197,160,89,0.25) 0%, transparent 70%)',
-            }}
-          />
-          <div className="relative z-10">
-            <div className="text-[10px] tracking-[0.35em] uppercase text-[#C5A059] mb-6 font-sans">
-              Your Curated Edit
+            className="inline-block border px-8 py-4"
+            style={{ background: T.ivory, borderColor: T.border }}
+          >
+            <div className="text-[10px] tracking-[0.25em] uppercase mb-2 font-sans" style={{ color: T.gold }}>
+              Your Selections
             </div>
-            <h1 className="font-serif italic text-white text-5xl md:text-6xl mb-8">
-              Curated For You
-            </h1>
-            <div
-              className="inline-block border border-[#C5A059]/30 px-8 py-4"
-              style={{ background: 'rgba(197,160,89,0.06)' }}
-            >
-              <div className="text-[10px] tracking-[0.25em] uppercase text-[#C5A059]/70 mb-2 font-sans">Your Selections</div>
-              <div className="text-[13px] font-serif text-white/70 italic">{summaryString || 'No selections made'}</div>
+            <div className="text-[13px] font-serif italic" style={{ color: T.mid }}>
+              {summaryString || 'No selections made'}
             </div>
           </div>
         </div>
@@ -295,19 +322,23 @@ export default function GuidedJourney() {
         <div className="px-6 md:px-16 py-16">
           {finalResults.length === 0 ? (
             <div className="text-center py-24">
-              <p className="font-serif italic text-white/50 text-2xl">No exact matches found.</p>
-              <p className="font-sans text-[11px] tracking-widest text-white/30 uppercase mt-4">Try broadening your selections.</p>
+              <p className="font-serif italic text-2xl" style={{ color: T.mid }}>No exact matches found.</p>
+              <p className="font-sans text-[11px] tracking-widest uppercase mt-4" style={{ color: T.muted }}>
+                Try broadening your selections.
+              </p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {finalResults.map((item) => (
-                <div key={item.p.id} className="flex flex-col" style={{ background: '#161410' }}>
+                <div key={item.p.id} className="flex flex-col border" style={{ background: T.ivory, borderColor: T.border }}>
                   <div className="flex-1 p-4">
                     <ProductCard product={item.p} matchScore={Math.min(item.s, 98)} badgeLabel={item.type} />
                   </div>
-                  <div className="px-4 pb-5 pt-3 border-t border-white/8">
-                    <div className="text-[9px] tracking-[0.25em] uppercase text-[#C5A059] mb-2 font-sans">Why This Works</div>
-                    <p className="text-[11px] font-serif text-white/55 leading-relaxed italic">
+                  <div className="px-4 pb-5 pt-3 border-t" style={{ background: T.beige, borderColor: T.border }}>
+                    <div className="text-[9px] tracking-[0.25em] uppercase mb-2 font-sans" style={{ color: T.gold }}>
+                      Why This Works
+                    </div>
+                    <p className="text-[11px] font-serif leading-relaxed italic" style={{ color: T.mid }}>
                       {generateExplainability(item)}
                     </p>
                   </div>
@@ -318,22 +349,27 @@ export default function GuidedJourney() {
         </div>
 
         {/* CTA bar */}
-        <div className="border-t border-white/8 px-6 md:px-16 py-10 flex flex-col sm:flex-row justify-center items-center gap-5">
+        <div className="border-t px-6 md:px-16 py-10 flex flex-col sm:flex-row justify-center items-center gap-5" style={{ borderColor: T.border, background: T.beige }}>
           <button
             onClick={() => setStep(0)}
-            className="px-9 py-3 border border-white/20 text-white/60 text-[10px] tracking-[0.2em] uppercase hover:border-white/50 hover:text-white transition-all duration-300 font-sans"
+            className="px-9 py-3 border text-[10px] tracking-[0.2em] uppercase font-sans transition-all duration-300 hover:border-[#1F1F1F]"
+            style={{ borderColor: T.border, color: T.mid, background: T.ivory }}
           >
             Refine Your Edit
           </button>
           <button
             onClick={saveEdit}
-            className="px-9 py-3 border border-[#C5A059] text-[#C5A059] text-[10px] tracking-[0.2em] uppercase hover:bg-[#C5A059] hover:text-[#0E0C09] transition-all duration-300 font-sans font-medium"
+            className="px-9 py-3 border text-[10px] tracking-[0.2em] uppercase font-sans font-medium transition-all duration-300"
+            style={{ borderColor: T.gold, color: T.gold, background: 'transparent' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = T.gold; (e.currentTarget as HTMLButtonElement).style.color = T.ivory; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; (e.currentTarget as HTMLButtonElement).style.color = T.gold; }}
           >
             Save This Edit
           </button>
           <button
             onClick={() => setSavedEditsOpen(true)}
-            className="text-[10px] tracking-[0.2em] uppercase text-white/30 hover:text-white/70 underline underline-offset-4 transition-colors font-sans"
+            className="text-[10px] tracking-[0.2em] uppercase underline underline-offset-4 transition-colors font-sans"
+            style={{ color: T.muted }}
           >
             View Saved Edits
           </button>
@@ -341,29 +377,43 @@ export default function GuidedJourney() {
 
         {/* Saved Edits Modal */}
         {savedEditsOpen && (
-          <div className="fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-4">
-            <div className="w-full max-w-[580px] max-h-[80vh] overflow-y-auto border border-white/10" style={{ background: '#161410' }}>
-              <div className="flex justify-between items-center px-8 py-6 border-b border-white/8">
-                <h3 className="text-2xl font-serif italic text-white">Saved Edits</h3>
-                <button onClick={() => setSavedEditsOpen(false)} className="text-white/40 hover:text-white text-2xl leading-none transition-colors">&times;</button>
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(31,20,10,0.35)' }}>
+            <div
+              className="w-full max-w-[580px] max-h-[80vh] overflow-y-auto border"
+              style={{ background: T.ivory, borderColor: T.border, boxShadow: '0 16px 48px rgba(31,20,10,0.12)' }}
+            >
+              <div className="flex justify-between items-center px-8 py-6 border-b" style={{ borderColor: T.border }}>
+                <h3 className="text-2xl font-serif italic" style={{ color: T.ink }}>Saved Edits</h3>
+                <button
+                  onClick={() => setSavedEditsOpen(false)}
+                  className="text-2xl leading-none transition-colors"
+                  style={{ color: T.muted }}
+                >
+                  &times;
+                </button>
               </div>
               <div className="px-8 py-6">
                 {(() => {
                   const edits = JSON.parse(localStorage.getItem('saved_edits') || '[]');
                   if (edits.length === 0) return (
-                    <p className="font-serif italic text-white/40">No saved edits yet.</p>
+                    <p className="font-serif italic" style={{ color: T.muted }}>No saved edits yet.</p>
                   );
                   return (
                     <div className="space-y-3">
                       {edits.map((edit: any) => (
-                        <div key={edit.id} className="border border-white/8 p-4 flex justify-between items-center" style={{ background: 'rgba(255,255,255,0.03)' }}>
+                        <div
+                          key={edit.id}
+                          className="border p-4 flex justify-between items-center"
+                          style={{ borderColor: T.border, background: T.beige }}
+                        >
                           <div className="flex-1 pr-4">
-                            <div className="text-[11px] font-serif text-white/60 italic">{edit.summary}</div>
+                            <div className="text-[11px] font-serif italic" style={{ color: T.mid }}>{edit.summary}</div>
                           </div>
                           <div className="flex gap-4 shrink-0">
                             <button
                               onClick={() => { setAnswers(edit.answers); setStep(steps.length); setSavedEditsOpen(false); }}
-                              className="text-[10px] tracking-widest uppercase text-[#C5A059] hover:text-white transition-colors font-sans"
+                              className="text-[10px] tracking-widest uppercase font-sans transition-colors"
+                              style={{ color: T.gold }}
                             >
                               Reopen
                             </button>
@@ -374,7 +424,8 @@ export default function GuidedJourney() {
                                 setSavedEditsOpen(false);
                                 setTimeout(() => setSavedEditsOpen(true), 10);
                               }}
-                              className="text-[10px] tracking-widest uppercase text-white/30 hover:text-white/70 transition-colors font-sans"
+                              className="text-[10px] tracking-widest uppercase font-sans transition-colors"
+                              style={{ color: T.muted }}
                             >
                               Delete
                             </button>
@@ -394,71 +445,62 @@ export default function GuidedJourney() {
 
   // ── Step page ─────────────────────────────────────────────────────────
 
-  const currentStep  = steps[step];
-  const meta         = STEP_META[currentStep.id];
-  const currentSels  = answers[currentStep.id];
+  const currentStep = steps[step];
+  const meta        = STEP_META[currentStep.id];
+  const currentSels = answers[currentStep.id];
 
-  // Grid column class per option count
   const optCount = currentStep.options.length;
   const gridCols =
-    optCount <= 3 ? 'grid-cols-1 sm:grid-cols-3'       :
+    optCount <= 3 ? 'grid-cols-1 sm:grid-cols-3'            :
     optCount <= 5 ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-5' :
-    optCount <= 6 ? 'grid-cols-2 md:grid-cols-3'        :
+    optCount <= 6 ? 'grid-cols-2 md:grid-cols-3'             :
                     'grid-cols-2 md:grid-cols-4';
 
   const maxWidth =
-    optCount <= 3 ? 'max-w-[860px]' :
+    optCount <= 3 ? 'max-w-[860px]'  :
     optCount <= 5 ? 'max-w-[1100px]' :
                     'max-w-[1200px]';
 
   return (
-    <div className="min-h-screen" style={{ background: '#0E0C09' }}>
+    <div className="min-h-screen" style={{ background: T.ivory }}>
 
-      {/* Step progress bar */}
+      {/* Progress header */}
       <div className="px-6 md:px-16 pt-10 pb-6">
         <div className="flex items-center justify-between mb-4">
+          {/* Step dashes */}
           <div className="flex items-center gap-1.5">
             {steps.map((_, i) => (
-              <div key={i} className="relative flex items-center">
-                <div
-                  className="transition-all duration-500"
-                  style={{
-                    width: i === step ? '32px' : '16px',
-                    height: '2px',
-                    background: i < step
-                      ? '#C5A059'
-                      : i === step
-                      ? '#C5A059'
-                      : 'rgba(255,255,255,0.15)',
-                  }}
-                />
-              </div>
+              <div key={i} className="transition-all duration-500" style={{
+                width: i === step ? '32px' : '14px',
+                height: '2px',
+                background: i <= step ? T.gold : T.border,
+              }} />
             ))}
           </div>
-          <div className="text-[10px] tracking-[0.3em] uppercase font-sans" style={{ color: 'rgba(197,160,89,0.5)' }}>
+          <div className="text-[10px] tracking-[0.3em] uppercase font-sans" style={{ color: T.goldMid }}>
             {ROMAN[step]} / VII
           </div>
         </div>
-        <div className="h-px w-full" style={{ background: 'rgba(255,255,255,0.06)' }} />
+        <div className="h-px w-full" style={{ background: T.border }} />
       </div>
 
-      {/* Question block + cards */}
+      {/* Question + cards */}
       <div key={step} className={`journey-reveal mx-auto px-6 md:px-16 pb-10 ${maxWidth}`}>
 
         {/* Question heading */}
         <div className="text-center mb-10 md:mb-14">
-          <div className="text-[10px] tracking-[0.35em] uppercase font-sans mb-4" style={{ color: 'rgba(197,160,89,0.7)' }}>
+          <div className="text-[10px] tracking-[0.35em] uppercase font-sans mb-4" style={{ color: T.gold }}>
             {meta?.subtitle ?? ''}
           </div>
-          <h2 className="font-serif italic text-white text-4xl md:text-5xl lg:text-6xl leading-tight">
+          <h2 className="font-serif italic text-4xl md:text-5xl lg:text-6xl leading-tight" style={{ color: T.ink }}>
             {currentStep.title}
           </h2>
-          <p className="mt-4 text-[11px] tracking-[0.2em] uppercase font-sans" style={{ color: 'rgba(255,255,255,0.25)' }}>
+          <p className="mt-4 text-[11px] tracking-[0.2em] uppercase font-sans" style={{ color: T.muted }}>
             Select up to two &nbsp;·&nbsp; tap to choose
           </p>
         </div>
 
-        {/* Image card grid */}
+        {/* Image cards */}
         <div className={`grid ${gridCols} gap-3 md:gap-4`}>
           {currentStep.options.map((opt, cardIdx) => {
             const isSelected = currentSels.includes(opt);
@@ -471,10 +513,14 @@ export default function GuidedJourney() {
               <button
                 key={opt}
                 onClick={() => handleSelect(opt)}
-                className="group relative overflow-hidden cursor-pointer text-left focus:outline-none"
+                className="group relative overflow-hidden cursor-pointer text-left focus:outline-none border transition-all duration-300"
                 style={{
                   aspectRatio: '2 / 3',
                   animationDelay: `${cardIdx * 60}ms`,
+                  borderColor: isSelected ? T.gold : T.border,
+                  boxShadow: isSelected
+                    ? `0 0 0 1px ${T.gold}, 0 4px 20px rgba(200,166,106,0.15)`
+                    : '0 2px 12px rgba(31,20,10,0.06)',
                 }}
               >
                 {/* Image */}
@@ -488,57 +534,50 @@ export default function GuidedJourney() {
                   />
                 )}
 
-                {/* Base gradient */}
+                {/* Warm ivory overlay — light at bottom for text legibility */}
                 <div
                   className="absolute inset-0 transition-opacity duration-500"
                   style={{
-                    background: 'linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.28) 50%, rgba(0,0,0,0.12) 100%)',
+                    background: 'linear-gradient(to top, rgba(250,247,241,0.94) 0%, rgba(250,247,241,0.42) 48%, rgba(250,247,241,0.08) 100%)',
                   }}
                 />
 
-                {/* Hover warm glow */}
+                {/* Hover brightening */}
                 <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                   style={{
-                    background: 'linear-gradient(to top, rgba(197,160,89,0.18) 0%, transparent 60%)',
+                    background: 'linear-gradient(to top, rgba(200,166,106,0.10) 0%, transparent 55%)',
                   }}
                 />
 
-                {/* Selected overlay */}
+                {/* Selected accent — gold corner flag */}
                 {isSelected && (
                   <>
-                    <div
-                      className="absolute inset-0 pointer-events-none"
-                      style={{
-                        boxShadow: 'inset 0 0 0 2px #C5A059',
-                        background: 'rgba(197,160,89,0.08)',
-                      }}
-                    />
-                    {/* Gold corner accent */}
-                    <div className="absolute top-0 right-0 w-0 h-0"
-                      style={{
-                        borderStyle: 'solid',
-                        borderWidth: '0 36px 36px 0',
-                        borderColor: 'transparent #C5A059 transparent transparent',
-                      }}
-                    />
-                    <div className="absolute top-1.5 right-1.5 text-[#0E0C09] text-[9px] font-bold leading-none">✓</div>
+                    <div className="absolute top-0 right-0 w-0 h-0" style={{
+                      borderStyle: 'solid',
+                      borderWidth: '0 34px 34px 0',
+                      borderColor: `transparent ${T.gold} transparent transparent`,
+                    }} />
+                    <div className="absolute top-1.5 right-1.5 font-bold leading-none" style={{ color: T.ivory, fontSize: '9px' }}>✓</div>
                   </>
                 )}
 
-                {/* Text */}
+                {/* Text — dark on light overlay */}
                 <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
                   {cardMeta?.tag && (
                     <div
                       className="text-[9px] tracking-[0.22em] uppercase font-sans mb-2 transition-colors duration-300"
-                      style={{ color: isSelected ? '#C5A059' : 'rgba(255,255,255,0.5)' }}
+                      style={{ color: isSelected ? T.gold : T.muted }}
                     >
                       {cardMeta.tag}
                     </div>
                   )}
                   <div
-                    className="font-serif text-white leading-tight transition-all duration-300 group-hover:text-[#F0E6D0]"
-                    style={{ fontSize: optCount > 6 ? '1.05rem' : '1.2rem' }}
+                    className="font-serif leading-tight transition-all duration-300"
+                    style={{
+                      color: T.ink,
+                      fontSize: optCount > 6 ? '1.0rem' : '1.15rem',
+                    }}
                   >
                     {displayOpt}
                   </div>
@@ -548,47 +587,55 @@ export default function GuidedJourney() {
           })}
         </div>
 
-        {/* Currency selector (budget step only) */}
+        {/* Currency selector — budget step only */}
         {currentStep.id === 'budget' && (
           <div className="mt-10 flex flex-col items-center gap-4">
-            <div className="text-[10px] tracking-[0.3em] uppercase font-sans" style={{ color: 'rgba(255,255,255,0.3)' }}>
+            <div className="text-[10px] tracking-[0.3em] uppercase font-sans" style={{ color: T.muted }}>
               Display prices in
             </div>
             <CurrencyDropdown currency={currency as CurrencyCode} setCurrency={c => setCurrency(c as any)} />
           </div>
         )}
-
       </div>
 
-      {/* Navigation */}
+      {/* Sticky navigation bar — ivory frosted */}
       <div
-        className="sticky bottom-0 z-20 px-6 md:px-16 py-5 flex items-center justify-between border-t border-white/8"
-        style={{ background: 'rgba(14,12,9,0.95)', backdropFilter: 'blur(12px)' }}
+        className="sticky bottom-0 z-20 px-6 md:px-16 py-5 flex items-center justify-between border-t"
+        style={{
+          background: 'rgba(250,247,241,0.97)',
+          backdropFilter: 'blur(12px)',
+          borderColor: T.border,
+        }}
       >
         <button
           onClick={handleBack}
-          className={`text-[10px] tracking-[0.22em] uppercase font-sans transition-all duration-300
-            ${step === 0
-              ? 'opacity-0 pointer-events-none'
-              : 'text-white/40 hover:text-white'
-            }`}
+          className={`text-[10px] tracking-[0.22em] uppercase font-sans transition-all duration-300 ${step === 0 ? 'opacity-0 pointer-events-none' : ''}`}
+          style={{ color: T.muted }}
+          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = T.ink; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = T.muted; }}
         >
           ← Back
         </button>
 
         <div className="flex items-center gap-6">
           {currentSels.length > 0 && (
-            <span className="text-[9px] tracking-[0.2em] uppercase font-sans hidden sm:block" style={{ color: 'rgba(197,160,89,0.6)' }}>
+            <span className="text-[9px] tracking-[0.2em] uppercase font-sans hidden sm:block" style={{ color: T.gold }}>
               {currentSels.length} selected
             </span>
           )}
           <button
             onClick={handleNext}
             disabled={currentSels.length === 0}
-            className="px-9 py-3 text-[10px] tracking-[0.22em] uppercase font-sans font-medium transition-all duration-300
-              disabled:opacity-30 disabled:pointer-events-none
-              border border-[#C5A059] text-[#C5A059]
-              hover:bg-[#C5A059] hover:text-[#0E0C09]"
+            className="px-9 py-3 text-[10px] tracking-[0.22em] uppercase font-sans font-medium transition-all duration-300 border disabled:opacity-30 disabled:pointer-events-none"
+            style={{ borderColor: T.gold, color: T.gold, background: 'transparent' }}
+            onMouseEnter={e => {
+              const b = e.currentTarget as HTMLButtonElement;
+              if (!b.disabled) { b.style.background = T.gold; b.style.color = T.ivory; }
+            }}
+            onMouseLeave={e => {
+              const b = e.currentTarget as HTMLButtonElement;
+              b.style.background = 'transparent'; b.style.color = T.gold;
+            }}
           >
             {step === steps.length - 1 ? 'See Results' : 'Continue →'}
           </button>
