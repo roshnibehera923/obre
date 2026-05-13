@@ -158,7 +158,7 @@ export default function Shop() {
              <div className="text-[10px] uppercase tracking-widest text-mid font-bold shrink-0">Selected:</div>
              <div className="flex gap-2 flex-wrap flex-1">
                 {selectedChips.map(f => (
-                   <span key={f.category + f.value} className="text-[10px] uppercase tracking-widest text-ink bg-cream border border-stone px-3 py-1 flex items-center gap-2">
+                   <span key={String(f.category) + '-' + f.value} className="text-[10px] uppercase tracking-widest text-ink bg-cream border border-stone px-3 py-1 flex items-center gap-2">
                      {f.display}
                      <button onClick={() => toggleFilter(f.category, f.value)} className="hover:text-gold text-sm">&times;</button>
                    </span>

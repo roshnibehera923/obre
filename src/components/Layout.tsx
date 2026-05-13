@@ -1,12 +1,71 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useStore } from "../store";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ProjectImpactModal } from "./ProjectImpactModal";
-import { cn } from "../lib/utils";
+import { cn, CURRENCY_META } from "../lib/utils";
+
+function NavCurrencyDropdown() {
+  const { currency, setCurrency } = useStore();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  const label = currency === 'BOTH' ? 'USD·INR' : currency;
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className={cn(
+          "flex items-center gap-1.5 text-[11px] uppercase tracking-widest font-medium transition-colors",
+          open ? "text-ink" : "text-mid hover:text-ink"
+        )}
+      >
+        <span>{label}</span>
+        <svg
+          className={`w-2.5 h-2.5 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          viewBox="0 0 10 6" fill="none"
+        >
+          <path d="M1 1l4 4 4-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+        </svg>
+      </button>
+
+      {open && (
+        <div className="absolute top-full right-0 mt-2 bg-white border border-stone shadow-lg z-50 min-w-[200px] py-1">
+          {CURRENCY_META.map((c, i) => (
+            <button
+              key={c.code}
+              onClick={() => { setCurrency(c.code as any); setOpen(false); }}
+              className={cn(
+                "w-full flex items-center justify-between px-4 py-2.5 text-left transition-colors",
+                currency === c.code
+                  ? "bg-stone/40 text-ink"
+                  : "text-mid hover:bg-stone/20 hover:text-ink",
+                i < CURRENCY_META.length - 1 ? "border-b border-stone/50" : ""
+              )}
+            >
+              <span className="text-[10px] uppercase tracking-widest font-medium">
+                {c.code === 'BOTH' ? 'BOTH' : c.code}
+              </span>
+              <span className="text-[10px] tracking-wider text-mid">{c.name}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function Navbar() {
   const navigate = useNavigate();
-  const { wishlist, cart, setSearchOpen, currency, setCurrency } = useStore();
+  const { wishlist, cart, setSearchOpen } = useStore();
 
   return (
     <>
@@ -23,22 +82,7 @@ export function Navbar() {
           Là Fuori
         </Link>
         <div className="flex gap-8 items-center text-[11px] uppercase tracking-widest font-medium text-mid">
-          <div className="flex items-center gap-2">
-            <button 
-              onClick={() => setCurrency('USD')} 
-              className={cn("transition-colors", currency === 'USD' ? "text-ink font-bold" : "text-mid hover:text-ink")}
-            >USD</button>
-            <span className="text-mid/50">|</span>
-            <button 
-              onClick={() => setCurrency('INR')} 
-              className={cn("transition-colors", currency === 'INR' ? "text-ink font-bold" : "text-mid hover:text-ink")}
-            >INR</button>
-            <span className="text-mid/50">|</span>
-            <button 
-              onClick={() => setCurrency('BOTH')} 
-              className={cn("transition-colors", currency === 'BOTH' ? "text-ink font-bold" : "text-mid hover:text-ink")}
-            >BOTH</button>
-          </div>
+          <NavCurrencyDropdown />
           <button className="hover:text-ink transition-colors" onClick={() => setSearchOpen(true)}>Search</button>
           <Link to="/wishlist" className="hover:text-ink transition-colors">
             Wishlist {wishlist.length > 0 && <span className="lowercase">({wishlist.length})</span>}

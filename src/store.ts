@@ -12,8 +12,8 @@ interface AppState {
   wishlist: Product[];
   cart: CartItem[];
   searchOpen: boolean;
-  currency: 'USD' | 'INR' | 'BOTH';
-  setCurrency: (currency: 'USD' | 'INR' | 'BOTH') => void;
+  currency: 'USD' | 'INR' | 'EUR' | 'GBP' | 'AED' | 'SGD' | 'AUD' | 'CAD' | 'JPY' | 'CHF' | 'BOTH';
+  setCurrency: (currency: 'USD' | 'INR' | 'EUR' | 'GBP' | 'AED' | 'SGD' | 'AUD' | 'CAD' | 'JPY' | 'CHF' | 'BOTH') => void;
   setSearchOpen: (open: boolean) => void;
   addToWishlist: (product: Product) => void;
   removeFromWishlist: (productId: string) => void;
