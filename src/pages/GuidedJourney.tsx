@@ -57,12 +57,12 @@ const STEP_META: Record<string, {
   mood: {
     subtitle: 'Define the energy of your look.',
     cards: {
-      'Minimal':  { img: a('mood.jpg'),   tag: 'Clean quiet luxury' },
-      'Romantic': { img: a('wedding.jpg'), tag: 'Soft romantic warmth' },
-      'Bold':     { img: a('mood 2.jpg'), tag: 'Statement presence' },
-      'Dramatic': { img: a('mood 3.jpg'), tag: 'Cinematic grandeur' },
-      'Elegant':  { img: a('evening.jpg'), tag: 'Timeless refinement' },
-      'Playful':  { img: a('festive.jpg'), tag: 'Vibrant joyful colour' },
+      'Minimal':  { img: a('minimal.jpg'),  tag: 'Clean quiet luxury' },
+      'Romantic': { img: a('romantic.jpg'), tag: 'Soft floral poetry' },
+      'Bold':     { img: a('bold.jpg'),     tag: 'Statement presence' },
+      'Dramatic': { img: a('mood 3.jpg'),   tag: 'Cinematic grandeur' },
+      'Elegant':  { img: a('elegant.jpg'),  tag: 'Timeless refinement' },
+      'Playful':  { img: a('playful.png'),  tag: 'Vibrant joyful colour' },
     },
   },
   budget: {
@@ -76,9 +76,9 @@ const STEP_META: Record<string, {
   colour: {
     subtitle: 'Colour is your first impression.',
     cards: {
-      'Pastel':     { img: a('color preference.jpg'),   tag: 'Soft ethereal palette' },
-      'Jewel Tone': { img: a('color preference 2.jpg'), tag: 'Rich chromatic depth' },
-      'Neutral':    { img: a('color preference 3.jpg'), tag: 'Understated ivory ease' },
+      'Pastel':     { img: a('pastel.jpg'),             tag: 'Soft ethereal palette' },
+      'Jewel Tone': { img: a('jewel.jpg'),              tag: 'Rich chromatic depth' },
+      'Neutral':    { img: a('neutral.jpg'),            tag: 'Understated ivory ease' },
       'Metallic':   { img: a('color preference.jpg'),   tag: 'Light-catching shimmer' },
       'Vibrant':    { img: a('color preference 2.jpg'), tag: 'Unapologetic bold colour' },
       'Noir':       { img: a('color preference 3.jpg'), tag: 'Moody black elegance' },
@@ -87,13 +87,13 @@ const STEP_META: Record<string, {
   silhouette: {
     subtitle: 'Choose the structure that reflects your style.',
     cards: {
-      'Mini':          { img: a('silhouette1.jpg'),  tag: 'Cocktail venue energy' },
-      'Midi':          { img: a('silhouette 2.jpg'), tag: 'Refined balanced proportion' },
-      'Floor-Length':  { img: a('silhoutte 3.jpg'),  tag: 'Sweeping vertical drama' },
-      'Gown':          { img: a('investment 3.jpg'), tag: 'Ballroom couture grandeur' },
-      'A-Line':        { img: a('silhouette1.jpg'),  tag: 'Feminine arched grace' },
-      'Body-Skimming': { img: a('silhouette 2.jpg'), tag: 'Sleek sculptural line' },
-      'Flowing':       { img: a('silhoutte 3.jpg'),  tag: 'Soft movement & drape' },
+      'Mini':          { img: a('mini.jpg'),         tag: 'Cocktail venue energy' },
+      'Midi':          { img: a('midi.jpg'),         tag: 'Refined balanced proportion' },
+      'Floor-Length':  { img: a('floor length.jpg'), tag: 'Sweeping vertical drama' },
+      'Gown':          { img: a('silhouette1.jpg'),  tag: 'Ballroom couture grandeur' },
+      'A-Line':        { img: a('silhouette 2.jpg'), tag: 'Feminine arched grace' },
+      'Body-Skimming': { img: a('silhoutte 3.jpg'),  tag: 'Sleek sculptural line' },
+      'Flowing':       { img: a('mood.jpg'),         tag: 'Soft movement & drape' },
     },
   },
 };
@@ -528,10 +528,9 @@ export default function GuidedJourney() {
                   boxShadow: isSelected
                     ? `0 0 0 1px ${T.gold}, 0 4px 20px rgba(200,166,106,0.15)`
                     : '0 2px 12px rgba(31,20,10,0.06)',
-                  opacity: isFocused ? 1 : 0.4,
-                  filter: isFocused ? 'none' : 'blur(1.5px) grayscale(0.3)',
-                  transform: hoveredCard === opt ? 'scale(1.025)' : 'scale(1)',
-                  transition: 'opacity 0.4s ease, filter 0.4s ease, transform 0.4s ease, border-color 0.3s ease, box-shadow 0.3s ease',
+                  opacity: isFocused ? 1 : 0.55,
+                  transform: hoveredCard === opt ? 'scale(1.03)' : 'scale(1)',
+                  transition: 'opacity 0.35s ease, transform 0.35s ease, border-color 0.3s ease, box-shadow 0.3s ease',
                   zIndex: hoveredCard === opt ? 1 : 0,
                 }}
               >
@@ -554,11 +553,11 @@ export default function GuidedJourney() {
                   }}
                 />
 
-                {/* Hover brightening */}
+                {/* Hover brightening — warm gold lift at bottom, slight lighten overall */}
                 <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-350 pointer-events-none"
                   style={{
-                    background: 'linear-gradient(to top, rgba(200,166,106,0.10) 0%, transparent 55%)',
+                    background: 'linear-gradient(to top, rgba(200,166,106,0.22) 0%, rgba(255,255,255,0.06) 60%, transparent 100%)',
                   }}
                 />
 
