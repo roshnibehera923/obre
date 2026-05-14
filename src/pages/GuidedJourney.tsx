@@ -17,6 +17,9 @@ const T = {
   muted:   '#A89E94',
 };
 
+// ─── Asset helper — respects Vite base path ───────────────────────────────
+const a = (name: string) => `${import.meta.env.BASE_URL}assets/${name}`;
+
 // ─── Step visual metadata ──────────────────────────────────────────────────
 const STEP_META: Record<string, {
   subtitle: string;
@@ -25,72 +28,72 @@ const STEP_META: Record<string, {
   occasion: {
     subtitle: 'Curated pieces tailored to your moment.',
     cards: {
-      'Wedding Guest':       { img: '/assets/wedding.jpg',         tag: 'Garden venue elegance' },
-      'Evening Gala':        { img: '/assets/Evening gala.jpg',    tag: 'Grand ballroom splendour' },
-      'Cocktail Party':      { img: '/assets/Cocktail party.jpg',  tag: 'Luxury lounge ambience' },
-      'Festive Celebration': { img: '/assets/festive.jpg',         tag: 'Jewel-toned festive warmth' },
-      'Resort Holiday':      { img: '/assets/Resort.jpg',          tag: 'Sunlit resort serenity' },
-      'Corporate Event':     { img: '/assets/Corporate event.jpg', tag: 'Polished professional edge' },
+      'Wedding Guest':       { img: a('wedding.jpg'),         tag: 'Garden venue elegance' },
+      'Evening Gala':        { img: a('Evening gala.jpg'),    tag: 'Grand ballroom splendour' },
+      'Cocktail Party':      { img: a('Cocktail party.jpg'),  tag: 'Luxury lounge ambience' },
+      'Festive Celebration': { img: a('festive.jpg'),         tag: 'Jewel-toned festive warmth' },
+      'Resort Holiday':      { img: a('Resort.jpg'),          tag: 'Sunlit resort serenity' },
+      'Corporate Event':     { img: a('Corporate event.jpg'), tag: 'Polished professional edge' },
     },
   },
   timeOfDay: {
     subtitle: 'Let the light define your look.',
     cards: {
-      'Day':     { img: '/assets/day.jpg',     tag: 'Soft morning luminosity' },
-      'Evening': { img: '/assets/evening.jpg', tag: 'Golden-hour warmth' },
-      'Night':   { img: '/assets/night.jpg',   tag: 'Deep after-dark allure' },
+      'Day':     { img: a('day.jpg'),     tag: 'Soft morning luminosity' },
+      'Evening': { img: a('evening.jpg'), tag: 'Golden-hour warmth' },
+      'Night':   { img: a('night.jpg'),   tag: 'Deep after-dark allure' },
     },
   },
   location: {
     subtitle: 'The setting shapes the silhouette.',
     cards: {
-      'Indoor':      { img: '/assets/indoor.jpg',      tag: 'Marble & grandeur' },
-      'Outdoor':     { img: '/assets/outdoor.jpg',     tag: 'Garden courtyard grace' },
-      'Beach':       { img: '/assets/beach.jpg',       tag: 'Coastal resort ease' },
-      'Destination': { img: '/assets/destination.jpg', tag: 'Heritage landscape wonder' },
-      'City':        { img: '/assets/city.jpg',        tag: 'Urban luxury exterior' },
+      'Indoor':      { img: a('indoor.jpg'),      tag: 'Marble & grandeur' },
+      'Outdoor':     { img: a('outdoor.jpg'),     tag: 'Garden courtyard grace' },
+      'Beach':       { img: a('beach.jpg'),       tag: 'Coastal resort ease' },
+      'Destination': { img: a('destination.jpg'), tag: 'Heritage landscape wonder' },
+      'City':        { img: a('city.jpg'),        tag: 'Urban luxury exterior' },
     },
   },
   mood: {
     subtitle: 'Define the energy of your look.',
     cards: {
-      'Minimal':  { img: '/assets/mood.jpg',                           tag: 'Clean quiet luxury' },
-      'Romantic': { img: '/assets/mood.png',                           tag: 'Soft floral poetry' },
-      'Bold':     { img: '/assets/mood 2.jpg',                         tag: 'Statement presence' },
-      'Dramatic': { img: '/assets/mood 3.jpg',                         tag: 'Cinematic grandeur' },
-      'Elegant':  { img: '/assets/Lafuori_25_Nov_25_11172.jpg',        tag: 'Timeless refinement' },
-      'Playful':  { img: '/assets/Lafuori_25_Nov_25_12889 Final.jpg',  tag: 'Vibrant joyful colour' },
+      'Minimal':  { img: a('mood.jpg'),   tag: 'Clean quiet luxury' },
+      'Romantic': { img: a('wedding.jpg'), tag: 'Soft romantic warmth' },
+      'Bold':     { img: a('mood 2.jpg'), tag: 'Statement presence' },
+      'Dramatic': { img: a('mood 3.jpg'), tag: 'Cinematic grandeur' },
+      'Elegant':  { img: a('evening.jpg'), tag: 'Timeless refinement' },
+      'Playful':  { img: a('festive.jpg'), tag: 'Vibrant joyful colour' },
     },
   },
   budget: {
     subtitle: 'A wardrobe investment, made beautifully.',
     cards: {
-      'Under $1,000':  { img: '/assets/investment 1.jpg', tag: 'Refined considered luxury' },
-      '$1,000–$2,000': { img: '/assets/investment 2.jpg', tag: 'Artisan craftsmanship' },
-      '$2,000+':       { img: '/assets/investment 3.jpg', tag: 'Couture atelier excellence' },
+      'Under $1,000':  { img: a('investment 1.jpg'), tag: 'Refined considered luxury' },
+      '$1,000–$2,000': { img: a('investment 2.jpg'), tag: 'Artisan craftsmanship' },
+      '$2,000+':       { img: a('investment 3.jpg'), tag: 'Couture atelier excellence' },
     },
   },
   colour: {
     subtitle: 'Colour is your first impression.',
     cards: {
-      'Pastel':     { img: '/assets/color preference.jpg',   tag: 'Soft ethereal palette' },
-      'Jewel Tone': { img: '/assets/color preference 2.jpg', tag: 'Rich chromatic depth' },
-      'Neutral':    { img: '/assets/color preference 3.jpg', tag: 'Understated ivory ease' },
-      'Metallic':   { img: '/assets/color preference.png',   tag: 'Light-catching shimmer' },
-      'Vibrant':    { img: '/assets/color preference 2.jpg', tag: 'Unapologetic bold colour' },
-      'Noir':       { img: '/assets/color preference 3.jpg', tag: 'Moody black elegance' },
+      'Pastel':     { img: a('color preference.jpg'),   tag: 'Soft ethereal palette' },
+      'Jewel Tone': { img: a('color preference 2.jpg'), tag: 'Rich chromatic depth' },
+      'Neutral':    { img: a('color preference 3.jpg'), tag: 'Understated ivory ease' },
+      'Metallic':   { img: a('color preference.jpg'),   tag: 'Light-catching shimmer' },
+      'Vibrant':    { img: a('color preference 2.jpg'), tag: 'Unapologetic bold colour' },
+      'Noir':       { img: a('color preference 3.jpg'), tag: 'Moody black elegance' },
     },
   },
   silhouette: {
     subtitle: 'Choose the structure that reflects your style.',
     cards: {
-      'Mini':          { img: '/assets/silhouette1.jpg',   tag: 'Cocktail venue energy' },
-      'Midi':          { img: '/assets/silhouette 2.jpg',  tag: 'Refined balanced proportion' },
-      'Floor-Length':  { img: '/assets/silhoutte 3.jpg',   tag: 'Sweeping vertical drama' },
-      'Gown':          { img: '/assets/silhouette.png',    tag: 'Ballroom couture grandeur' },
-      'A-Line':        { img: '/assets/silhouette1.jpg',   tag: 'Feminine arched grace' },
-      'Body-Skimming': { img: '/assets/silhouette 2.jpg',  tag: 'Sleek sculptural line' },
-      'Flowing':       { img: '/assets/silhoutte 3.jpg',   tag: 'Soft movement & drape' },
+      'Mini':          { img: a('silhouette1.jpg'),  tag: 'Cocktail venue energy' },
+      'Midi':          { img: a('silhouette 2.jpg'), tag: 'Refined balanced proportion' },
+      'Floor-Length':  { img: a('silhoutte 3.jpg'),  tag: 'Sweeping vertical drama' },
+      'Gown':          { img: a('investment 3.jpg'), tag: 'Ballroom couture grandeur' },
+      'A-Line':        { img: a('silhouette1.jpg'),  tag: 'Feminine arched grace' },
+      'Body-Skimming': { img: a('silhouette 2.jpg'), tag: 'Sleek sculptural line' },
+      'Flowing':       { img: a('silhoutte 3.jpg'),  tag: 'Soft movement & drape' },
     },
   },
 };
