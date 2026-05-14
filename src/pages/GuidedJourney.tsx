@@ -18,8 +18,6 @@ const T = {
 };
 
 // ─── Step visual metadata ──────────────────────────────────────────────────
-// Images: non-human venues, interiors, textures, landscapes, architecture.
-// Each image is unique to its option and matched to the keyword's visual meaning.
 const STEP_META: Record<string, {
   subtitle: string;
   cards: Record<string, { img: string; tag: string }>;
@@ -27,109 +25,72 @@ const STEP_META: Record<string, {
   occasion: {
     subtitle: 'Curated pieces tailored to your moment.',
     cards: {
-      // Wedding tablescape: flowers, candles, no people
-      'Wedding Guest':       { img: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Garden venue elegance' },
-      // Grand ballroom: chandeliers, formal architecture
-      'Evening Gala':        { img: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Grand ballroom splendour' },
-      // Luxury bar interior: moodlit lounge, no crowd
-      'Cocktail Party':      { img: 'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Luxury lounge ambience' },
-      // Jewel-toned festive bokeh: warm candle-glow, no people
-      'Festive Celebration': { img: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Jewel-toned festive warmth' },
-      // Luxury resort pool: tropical architecture, no swimwear
-      'Resort Holiday':      { img: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Sunlit resort serenity' },
-      // Premium boardroom: clean architecture, no workers
-      'Corporate Event':     { img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Polished architectural precision' },
+      'Wedding Guest':       { img: '/assets/wedding.jpg',         tag: 'Garden venue elegance' },
+      'Evening Gala':        { img: '/assets/Evening gala.jpg',    tag: 'Grand ballroom splendour' },
+      'Cocktail Party':      { img: '/assets/Cocktail party.jpg',  tag: 'Luxury lounge ambience' },
+      'Festive Celebration': { img: '/assets/festive.jpg',         tag: 'Jewel-toned festive warmth' },
+      'Resort Holiday':      { img: '/assets/Resort.jpg',          tag: 'Sunlit resort serenity' },
+      'Corporate Event':     { img: '/assets/Corporate event.jpg', tag: 'Polished professional edge' },
     },
   },
   timeOfDay: {
     subtitle: 'Let the light define your look.',
     cards: {
-      // Morning light filtering through sheer curtains: soft, airy
-      'Day':     { img: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Soft morning luminosity' },
-      // Golden hour: warm amber coastal light, no subjects
-      'Evening': { img: 'https://images.unsplash.com/photo-1506477331477-33d5d8b3dc85?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Golden-hour warmth' },
-      // City at night: deep-blue ambience, light points
-      'Night':   { img: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Chandelier-lit after-dark' },
+      'Day':     { img: '/assets/day.jpg',     tag: 'Soft morning luminosity' },
+      'Evening': { img: '/assets/evening.jpg', tag: 'Golden-hour warmth' },
+      'Night':   { img: '/assets/night.jpg',   tag: 'Deep after-dark allure' },
     },
   },
   location: {
     subtitle: 'The setting shapes the silhouette.',
     cards: {
-      // Marble luxury hotel interior: grand lobby architecture
-      'Indoor':      { img: 'https://images.unsplash.com/photo-1554435493-93422e8220c8?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Marble & grandeur' },
-      // Landscaped garden courtyard: arched greenery, no people
-      'Outdoor':     { img: 'https://images.unsplash.com/photo-1551882547-ff40c63fe2e2?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Garden courtyard grace' },
-      // Tropical beach/coastline: private resort beach
-      'Beach':       { img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Coastal resort ease' },
-      // Heritage/palace hotel exterior: destination architecture
-      'Destination': { img: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Heritage landscape wonder' },
-      // Luxury city skyline: urban architectural silhouette
-      'City':        { img: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Urban luxury exterior' },
+      'Indoor':      { img: '/assets/indoor.jpg',      tag: 'Marble & grandeur' },
+      'Outdoor':     { img: '/assets/outdoor.jpg',     tag: 'Garden courtyard grace' },
+      'Beach':       { img: '/assets/beach.jpg',       tag: 'Coastal resort ease' },
+      'Destination': { img: '/assets/destination.jpg', tag: 'Heritage landscape wonder' },
+      'City':        { img: '/assets/city.jpg',        tag: 'Urban luxury exterior' },
     },
   },
   mood: {
     subtitle: 'Define the energy of your look.',
     cards: {
-      // Minimalist beige interior: clean neutral luxury composition
-      'Minimal':  { img: 'https://images.unsplash.com/photo-1449247709967-d4461a6a6103?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Clean quiet luxury' },
-      // Soft pink roses: blush floral poetry, candlelit romance
-      'Romantic': { img: 'https://images.unsplash.com/photo-1490750967868-88df5691cc2e?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Soft floral poetry' },
-      // Statement bold architecture: strong lines, dramatic contrast
-      'Bold':     { img: 'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Statement presence' },
-      // Cinematic grand interior: moody dramatic hall, deep shadows
-      'Dramatic': { img: 'https://images.unsplash.com/photo-1541123437800-1bb1317badc2?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Cinematic grandeur' },
-      // Marble refined interior: distinct from ballroom — classical hotel
-      'Elegant':  { img: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Timeless refinement' },
-      // Vibrant colourful editorial decor: artistic, lively palette
-      'Playful':  { img: 'https://images.unsplash.com/photo-1513519245088-0e12902e35a6?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Vibrant joyful colour' },
+      'Minimal':  { img: '/assets/mood.jpg',                           tag: 'Clean quiet luxury' },
+      'Romantic': { img: '/assets/mood.png',                           tag: 'Soft floral poetry' },
+      'Bold':     { img: '/assets/mood 2.jpg',                         tag: 'Statement presence' },
+      'Dramatic': { img: '/assets/mood 3.jpg',                         tag: 'Cinematic grandeur' },
+      'Elegant':  { img: '/assets/Lafuori_25_Nov_25_11172.jpg',        tag: 'Timeless refinement' },
+      'Playful':  { img: '/assets/Lafuori_25_Nov_25_12889 Final.jpg',  tag: 'Vibrant joyful colour' },
     },
   },
   budget: {
     subtitle: 'A wardrobe investment, made beautifully.',
     cards: {
-      // Refined neutral fabric texture: soft accessible luxury
-      'Under $1,000':  { img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Refined considered luxury' },
-      // Embroidery/textile craft detail: artisan hand-embellishment
-      '$1,000–$2,000': { img: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Artisan craftsmanship' },
-      // Intricate couture embellishment: beadwork/embroidery close-up
-      '$2,000+':       { img: 'https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Couture atelier excellence' },
+      'Under $1,000':  { img: '/assets/investment 1.jpg', tag: 'Refined considered luxury' },
+      '$1,000–$2,000': { img: '/assets/investment 2.jpg', tag: 'Artisan craftsmanship' },
+      '$2,000+':       { img: '/assets/investment 3.jpg', tag: 'Couture atelier excellence' },
     },
   },
   colour: {
     subtitle: 'Colour is your first impression.',
     cards: {
-      // Soft pastel floral arrangement: blush pinks, periwinkle, pale tones
-      'Pastel':     { img: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Soft ethereal palette' },
-      // Rich jewel-tone fabric/velvet: deep emerald, burgundy, sapphire
-      'Jewel Tone': { img: 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Rich chromatic depth' },
-      // Warm beige / linen texture: ivory sand tones, understated luxury
-      'Neutral':    { img: 'https://images.unsplash.com/photo-1524634126442-357e0eac3c14?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Understated ivory ease' },
-      // Metallic shimmer: gold sequin / champagne satin texture
-      'Metallic':   { img: 'https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Light-catching shimmer' },
-      // Saturated vibrant colour palette: bold editorial colour field
-      'Vibrant':    { img: 'https://images.unsplash.com/photo-1513519245088-0e12902e35a6?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Unapologetic bold colour' },
-      // Black satin / dark luxury fabric: elegant noir texture
-      'Noir':       { img: 'https://images.unsplash.com/photo-1451186859696-371d9477be93?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Moody black elegance' },
+      'Pastel':     { img: '/assets/color preference.jpg',   tag: 'Soft ethereal palette' },
+      'Jewel Tone': { img: '/assets/color preference 2.jpg', tag: 'Rich chromatic depth' },
+      'Neutral':    { img: '/assets/color preference 3.jpg', tag: 'Understated ivory ease' },
+      'Metallic':   { img: '/assets/color preference.png',   tag: 'Light-catching shimmer' },
+      'Vibrant':    { img: '/assets/color preference 2.jpg', tag: 'Unapologetic bold colour' },
+      'Noir':       { img: '/assets/color preference 3.jpg', tag: 'Moody black elegance' },
     },
   },
   silhouette: {
-    // Architecture/space analogues mirror each silhouette's proportions
     subtitle: 'Choose the structure that reflects your style.',
     cards: {
-      // Intimate cocktail lounge: table-height scale, low-ceiling detail
-      'Mini':          { img: 'https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Cocktail venue energy' },
-      // Elegant mid-level interior: balanced proportions, refined seating
-      'Midi':          { img: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Refined balanced proportion' },
-      // Grand staircase: vertical drama, sweeping length from top to bottom
-      'Floor-Length':  { img: 'https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Sweeping vertical drama' },
-      // Palatial grand interior: high ceilings, couture-scale grandeur
-      'Gown':          { img: 'https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Ballroom couture grandeur' },
-      // Garden arch: symmetrical flared structure, feminine arch silhouette
-      'A-Line':        { img: 'https://images.unsplash.com/photo-1551882547-ff40c63fe2e2?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Feminine arched grace' },
-      // Sleek modern curved architecture: smooth sculptural surfaces
-      'Body-Skimming': { img: 'https://images.unsplash.com/photo-1519003300449-424ad0405076?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Sleek sculptural line' },
-      // Draped sheer fabric/curtain: movement, soft volume, flowing drape
-      'Flowing':       { img: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&h=800&q=80', tag: 'Soft movement & drape' },
+      'Mini':          { img: '/assets/silhouette1.jpg',   tag: 'Cocktail venue energy' },
+      'Midi':          { img: '/assets/silhouette 2.jpg',  tag: 'Refined balanced proportion' },
+      'Floor-Length':  { img: '/assets/silhoutte 3.jpg',   tag: 'Sweeping vertical drama' },
+      'Gown':          { img: '/assets/silhouette.png',    tag: 'Ballroom couture grandeur' },
+      'A-Line':        { img: '/assets/silhouette1.jpg',   tag: 'Feminine arched grace' },
+      'Body-Skimming': { img: '/assets/silhouette 2.jpg',  tag: 'Sleek sculptural line' },
+      'Flowing':       { img: '/assets/silhoutte 3.jpg',   tag: 'Soft movement & drape' },
     },
   },
 };
@@ -238,6 +199,7 @@ export default function GuidedJourney() {
     silhouette: [],
   });
   const [savedEditsOpen, setSavedEditsOpen] = useState(false);
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   const steps = [
     { id: 'occasion',   title: 'What is the Occasion?',           options: ['Wedding Guest', 'Evening Gala', 'Cocktail Party', 'Festive Celebration', 'Resort Holiday', 'Corporate Event'] },
@@ -261,8 +223,8 @@ export default function GuidedJourney() {
     });
   };
 
-  const handleNext = () => { if (step < steps.length) setStep(step + 1); };
-  const handleBack = () => { if (step > 0) setStep(step - 1); };
+  const handleNext = () => { if (step < steps.length) { setStep(step + 1); setHoveredCard(null); } };
+  const handleBack = () => { if (step > 0) { setStep(step - 1); setHoveredCard(null); } };
 
   const calculateBudgetScore = (price: number, budgetRange: string) => {
     if (budgetRange === 'Under $1,000')  return price < 1000  ? 15 : -10;
@@ -540,19 +502,22 @@ export default function GuidedJourney() {
         </div>
 
         {/* Image cards */}
-        <div className={`grid ${gridCols} gap-3 md:gap-4`}>
+        <div className={`grid ${gridCols} gap-3 md:gap-4`} style={{ isolation: 'isolate' }}>
           {currentStep.options.map((opt, cardIdx) => {
             const isSelected = currentSels.includes(opt);
             const cardMeta   = meta?.cards[opt];
             const displayOpt = currentStep.id === 'budget'
               ? getBudgetLabel(opt, currency as CurrencyCode)
               : opt;
+            const isFocused  = hoveredCard === null || hoveredCard === opt;
 
             return (
               <button
                 key={opt}
                 onClick={() => handleSelect(opt)}
-                className="group relative overflow-hidden cursor-pointer text-left focus:outline-none border transition-all duration-300"
+                onMouseEnter={() => setHoveredCard(opt)}
+                onMouseLeave={() => setHoveredCard(null)}
+                className="group relative overflow-hidden cursor-pointer text-left focus:outline-none border"
                 style={{
                   aspectRatio: '2 / 3',
                   animationDelay: `${cardIdx * 60}ms`,
@@ -560,6 +525,11 @@ export default function GuidedJourney() {
                   boxShadow: isSelected
                     ? `0 0 0 1px ${T.gold}, 0 4px 20px rgba(200,166,106,0.15)`
                     : '0 2px 12px rgba(31,20,10,0.06)',
+                  opacity: isFocused ? 1 : 0.4,
+                  filter: isFocused ? 'none' : 'blur(1.5px) grayscale(0.3)',
+                  transform: hoveredCard === opt ? 'scale(1.025)' : 'scale(1)',
+                  transition: 'opacity 0.4s ease, filter 0.4s ease, transform 0.4s ease, border-color 0.3s ease, box-shadow 0.3s ease',
+                  zIndex: hoveredCard === opt ? 1 : 0,
                 }}
               >
                 {/* Image */}
